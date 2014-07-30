@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
       !!current_user
     end
 
-    def authorized_user?(question)
-      logged_in? && question.user.include?(current_user)
+    def authorized_user?(trip)
+      logged_in? && trip.user.include?(current_user)
     end
 end

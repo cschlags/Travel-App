@@ -5,35 +5,11 @@
   <%= @user.name %>
 </p>
 
-<p>
-  <strong>Provider:</strong>
-  <%= @user.provider %>
-</p>
+<h2>My trips</h2>
 
-<p>
-  <strong>Uid:</strong>
-  <%= @user.uid %>
-</p>
+<% @user.trips.each do |trip| %>
+    <h2><%=link_to trip.trip_name, trip %></h2>
+<% end %>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Image:</strong>
-  <%= @user.image %>
-</p>
-
-<p>
-  <strong>Oauth token:</strong>
-  <%= @user.oauth_token %>
-</p>
-
-<p>
-  <strong>Oauth expires at:</strong>
-  <%= @user.oauth_expires_at %>
-</p>
-
-|
+<%= link_to 'New Trip', new_trip_path %> |
 <%= link_to 'Back', users_path %>

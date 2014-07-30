@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   root 'application#index'
-  
+
   resources :trips
 
   resources :users
@@ -65,4 +65,6 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+  get "/:page" => "static#show"
 end

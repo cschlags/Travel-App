@@ -1,5 +1,5 @@
 <% if current_user %>
-  <li><%= link_to "Dashboard", current_user %></li>
+  <li><%= link_to "MY TRIPS!!", current_user %></li>
   <li><a>Hey, <%= current_user.name.split(" ")[0] %>!</a></li>
   <li><img src="<%= current_user.image %>"></li>
   <li><%= link_to "Log Out", logout_path %></li>

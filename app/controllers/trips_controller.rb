@@ -4,21 +4,34 @@ class TripsController < ApplicationController
   # GET /trips
   # GET /trips.json
   def index
-    @trips = Trip.all
+    # @trips = Trip.all
+    redirect_to root_url
   end
 
   # GET /trips/1
   # GET /trips/1.json
   def show
+    unless @trip.user == current_user
+      redirect_to root_url
+    end
   end
 
   # GET /trips/new
   def new
-    @trip = Trip.new
+    if logged_in?
+      @trip = Trip.new # this was original - the method was added
+    else
+      redirect_to root_url, :flash => { :error => "Make sure you're logged in!!" }
+    end
   end
 
   # GET /trips/1/edit
   def edit
+    if !logged_in?
+      redirect_to root_path, :flash => { :error => "Make sure you're logged in!" }
+    elsif !question_author?
+      redirect_to root_url, :flash => { :error => "You can't edit someone else's trip!" }
+    end
   end
 
   # POST /trips
@@ -54,10 +67,11 @@ class TripsController < ApplicationController
   # DELETE /trips/1
   # DELETE /trips/1.json
   def destroy
-    @trip.destroy
-    respond_to do |format|
-      format.html { redirect_to trips_url, notice: 'Trip was successfully destroyed.' }
-      format.json { head :no_content }
+    if (logged_in? && trip_author?) 
+      @trip.destroy
+      redirect_to root_url
+    else
+      redirect_to root_url, :flash => { :error => "You can't delete someone else's trip!" }
     end
   end
 
@@ -70,5 +84,9 @@ class TripsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def trip_params
       params.require(:trip).permit(:trip_name, :location, :user_id, :to_pack, :to_do, :budget)
+    end
+
+    def trip_author?
+      @trip.user == current_user
     end
 end
